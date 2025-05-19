@@ -20,19 +20,22 @@ function MusicPlayer() {
         .get(`${API_URL}/songbyid/${id}`, {
           headers: {
             Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
-          }
+          },
+          timeout: 1000,
         })
         .then((response) => {
           setSong(response.data);
           console.log("Fetched song:", response.data);
         })
         .catch((error) => {
-          console.log("Error fetching song:", error);
+          console.log("Error fetching songsss:", error);
         });
     } catch(error) {
       console.error("Error during fetching song:", error);
+      
     }
   }, [id]);
+
   if (!song) return <LoadingSpinner />;
 
   const handleToggle = () => {

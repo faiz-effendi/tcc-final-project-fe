@@ -1,15 +1,25 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import PopupMessage from "../components/popup_message.jsx";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMesage, setErrorMessage] = useState("");
+
   const API_URL = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    if(location.state?.alert) {
+      setIsError(true);
+      setErrorMessage("Session expired, please login again.");
+    }
+  }, [])
 
   const tryToLogin = async() => {
     try {
@@ -24,16 +34,19 @@ function LoginPage() {
           navigate("/home");
         })
         .catch((error) => {
-          console.log("Error during loginlala:", error);
-          <PopupMessage/>
+          console.log("Error during login:", error);
+          setIsError(true);
+          setErrorMessage("Make sure the email or password you entered is correct and already registered.");
         });
     } catch (error) {
-      console.error("Error during login:", error);
+      // console.error("Error during loginlay:", error);
     }
   }
 
   return (
     <>
+      { isError && <PopupMessage setState={ setIsError } message={ errorMesage } /> }
+
       <div className="h-screen flex items-center justify-center">
         <div className="relative w-[400px] h-[580px] flex items-center justify-center object-cover">
           <img src="/home_player.png" className="relative z-10 h-full object-cover" />
@@ -69,7 +82,7 @@ function LoginPage() {
                 <a
                   className="text-blue-500 rounded-md p-1 hover:text-blue-600 transition duration-200 text-center cursor-pointer"
                   onClick={ () => {  } }
-                >Login</a>
+                >Signup</a>
               </p>
             </div>
           </div>
