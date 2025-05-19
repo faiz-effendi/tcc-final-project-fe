@@ -30,7 +30,7 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   if(isValid === null) return <LoadingSpinner />;
-  if(isValid === false) return <Navigate to="/" replace />;
+  if(isValid === false) return <Navigate to="/" replace state={{ alert: "Please login first!" }}/>;
 
   return children;
 }
