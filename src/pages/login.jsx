@@ -18,6 +18,7 @@ function LoginPage() {
     if(location.state?.alert) {
       setIsError(true);
       setErrorMessage("Session expired, please login again.");
+      window.history.replaceState({}, document.title);
     }
   }, [])
 
