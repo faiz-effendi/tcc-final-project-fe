@@ -25,7 +25,6 @@ function MusicPlayer() {
         })
         .then((response) => {
           setSong(response.data);
-          console.log("Fetched song:", response.data);
         })
         .catch((error) => {
           console.log("Error fetching songsss:", error);

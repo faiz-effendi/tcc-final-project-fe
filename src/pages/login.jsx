@@ -25,7 +25,7 @@ function LoginPage() {
   const tryToLogin = async() => {
     try {
       await axios
-        .post(`${API_URL}/login`, { email, password })
+        .post(`${API_URL}/login`, { email, password }, { withCredentials: true })
         .then((response) => {
           const user = { 
             id: response.data.safeUserData.id, 
@@ -40,7 +40,7 @@ function LoginPage() {
           setErrorMessage("Make sure the email or password you entered is correct and already registered.");
         });
     } catch (error) {
-      // console.error("Error during loginlay:", error);
+      console.error("Error during loginlay:", error);
     }
   }
 

@@ -43,8 +43,6 @@ function Home() {
         }
       })
       .then((response) => {
-        console.log("id user: ", JSON.parse(localStorage.getItem("localSavedUserData")).id);
-        console.log("Response fetch playlist: ", response.data);
         setPlaylists(response.data);
       })
       .catch((error) => {
