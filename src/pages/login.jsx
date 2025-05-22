@@ -10,7 +10,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
-  const [errorMesage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -46,7 +46,7 @@ function LoginPage() {
 
   return (
     <>
-      { isError && <PopupMessage setState={ setIsError } message={ errorMesage } /> }
+      { isError && <PopupMessage setState={ setIsError } message={ errorMessage } /> }
 
       <div className="h-screen flex items-center justify-center">
         <div className="relative w-[400px] h-[580px] flex items-center justify-center object-cover">
