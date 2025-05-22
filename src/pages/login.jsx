@@ -9,16 +9,31 @@ function LoginPage() {
   const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [popupStatus, setPopupStatus] = useState({
+    isOpen: false,
+    type: "",
+    message: ""
+  });
 
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    if(location.state?.alert) {
-      setIsError(true);
-      setErrorMessage("Session expired, please login again.");
-      window.history.replaceState({}, document.title);
+    if(location.state?.type) {
+      if(location.state.type === "error") {
+        setPopupStatus({
+          isOpen: true,
+          type: "error",
+          message: location.state.message
+        });
+        window.history.replaceState({}, document.title);
+      } else if(location.state.type === "success") {
+        setPopupStatus({
+          isOpen: true,
+          type: "success",
+          message: location.state.message
+        });
+        window.history.replaceState({}, document.title);
+      } 
     }
   }, [])
 
@@ -36,8 +51,10 @@ function LoginPage() {
         })
         .catch((error) => {
           console.log("Error during login:", error);
-          setIsError(true);
-          setErrorMessage("Make sure the email or password you entered is correct and already registered.");
+          setPopupStatus({
+            isOpen: true,
+            message: "Make sure the email or password you entered is correct and already registered."
+          });
         });
     } catch (error) {
       console.error("Error during loginlay:", error);
@@ -46,7 +63,7 @@ function LoginPage() {
 
   return (
     <>
-      { isError && <PopupMessage setState={ setIsError } message={ errorMessage } /> }
+      { popupStatus.isOpen && <PopupMessage state={ popupStatus } setState={ setPopupStatus }/> }
 
       <div className="h-screen flex items-center justify-center">
         <div className="relative w-[400px] h-[580px] flex items-center justify-center object-cover">

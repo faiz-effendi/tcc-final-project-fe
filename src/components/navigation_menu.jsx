@@ -16,9 +16,9 @@ function NavMenu() {
         if (response.status == 200) {
           console.log("Logout successful");
           localStorage.removeItem('localSavedUserData');
-          navigate('/', state={ alert: "Logout Berhasil!" });
+          navigate('/', state={ type: "success", message: "Logout successful!" });
         } else {
-          console.log("Logout failed: ", response.data.message);
+          console.log("Logout failed: ", response);
         }
       })
       .catch((error) => {
@@ -32,13 +32,13 @@ function NavMenu() {
         className="h-[45px] w-[45px] bg-green-300 hover:bg-green-500 cursor-pointer rounded-lg flex items-center justify-center"
         onClick={goToBack}  
       >
-        <i class="fa-solid fa-arrow-left text-2xl text-white"></i>
+        <i className="fa-solid fa-arrow-left text-2xl text-white"></i>
       </div>
       <div 
         className="h-[45px] w-[45px] bg-red-300 hover:bg-red-500 cursor-pointer rounded-lg flex items-center justify-center"
         onClick={handleLogout}
       >
-        <i class="fa-solid fa-power-off text-2xl text-white"></i>
+        <i className="fa-solid fa-power-off text-2xl text-white"></i>
       </div>
     </div>
   )
