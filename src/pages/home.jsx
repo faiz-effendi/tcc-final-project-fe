@@ -1,12 +1,15 @@
 import SongCard from "../components/song_card";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import NavMenu from "../components/navigation_menu";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Home() {
   const [songs, setSongs] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
   const [search, setSearch] = useState("");
+  const scrollRef = useRef(null);
 
   const fetchSongs = async() => {
     try {
@@ -16,7 +19,9 @@ function Home() {
             Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
           }
         })
-        .then((response) => { setSongs(response.data); })
+        .then((response) => { 
+          setSongs(response.data); 
+        })
         .catch((error) => {
           console.log("Error fetching songs:", error);
         })
@@ -30,9 +35,47 @@ function Home() {
     return () => clearTimeout(delaySearch); // Clear timeout if user is still typing
   }, [search]);
 
+  const fetchPlaylists = async() => {
+    await axios
+      .get(`${API_URL}/playlist/${JSON.parse(localStorage.getItem("localSavedUserData")).id}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
+        }
+      })
+      .then((response) => {
+        console.log("id user: ", JSON.parse(localStorage.getItem("localSavedUserData")).id);
+        console.log("Response fetch playlist: ", response.data);
+        setPlaylists(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching playlists: ", error);
+      })
+  }
+
+  useEffect(() => {
+    fetchPlaylists();
+
+    const container = scrollRef.current;
+    const handleWheel = (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        container.scrollLeft += e.deltaY;
+      }
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    // cleanup biar nggak memory leak
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, [])
+
   return (
     <div className="h-screen flex items-center justify-center">
+
       <div className="relative w-[400px] h-[580px] flex items-center justify-center object-cover">
+        <NavMenu />
         {/* Pixel Player */}
         <img src="/home_player.png" className="relative z-8 h-full object-cover" />
 
@@ -58,16 +101,36 @@ function Home() {
           </div>
         </div>
 
+        {/* Playlist */}
+        <div 
+          className="absolute flex gap-2 border-0 border-blue-400 h-[50px] w-[280px] top-[78px] overflow-x-auto scrollbar-hide z-20 font-pixel"
+          ref={scrollRef}
+        >
+          {
+            playlists.map((playlist, index) => (
+              <div className="bg-[#d4c39a] rounded-lg min-w-50 flex items-center cursor-pointer capitalize">
+                <div className="w-[50px] rounded-lg">
+                  <img src="/public/supershy.jpeg" alt="" className="rounded-lg"/>
+                </div>
+                <h1 className="px-2 text-xl text-white whitespace-nowrap">
+                  {playlist.Playlistname}
+                </h1>
+              </div>
+            ))
+          }
+        </div>
+
+        {/* All Song List */}
         <div className="absolute inset-0 top-[140px] left-[60px] z-10">
           <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
             {
               songs.map((song, index) => (
                 <SongCard
-                key={index}
-                song_id={song.id}
-                title={song.name}
-                artist={song.artist}
-                img={song.image}
+                  key={index}
+                  song_id={song.id}
+                  title={song.name}
+                  artist={song.artist}
+                  img={song.image}
                 />
               ))
             }

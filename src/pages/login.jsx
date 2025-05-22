@@ -25,7 +25,7 @@ function LoginPage() {
   const tryToLogin = async() => {
     try {
       await axios
-        .post(`${API_URL}/login`, { email, password})
+        .post(`${API_URL}/login`, { email, password })
         .then((response) => {
           const user = { 
             id: response.data.safeUserData.id, 
@@ -75,7 +75,7 @@ function LoginPage() {
                 onChange={ e => { setPassword(e.target.value) } }
               />
               <button
-                className="bg-orange-400 text-white text-center rounded-md px-4 py-1 mt-2 hover:bg-orange-500 transition duration-200 z-20"
+                className="bg-orange-400 text-white text-center rounded-md px-4 py-1 mt-2 hover:bg-orange-500 transition duration-200 cursor-pointer z-20"
                 onClick={ tryToLogin }
               >Login</button>
               <p className="text-center text-sm text-gray-500">

@@ -17,7 +17,7 @@ function SongCard({ song_id, title, artist, img }) {
 
         {/* Song Title and Artist */}
         <div className="pl-2 pb-1 max-w-[200px] overflow-hidden">
-          <p className="animate-marquee whitespace-nowrap text-2xl font-pixel h-6">{title}</p>
+          <p className="whitespace-nowrap text-2xl font-pixel h-6">{title}</p>
           <p className="text-sm text-gray-500 font-medium">{artist}</p>
         </div>
       </div>

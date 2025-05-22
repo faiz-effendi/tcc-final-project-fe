@@ -1,0 +1,13 @@
+runtime: nodejs20
+instance_class: F1
+
+handlers:
+  # Tangani file statis: JS, CSS, gambar, dll
+  - url: /(.*\.(js|css|png|jpg|svg|ico|json|txt|woff2?))
+    static_files: dist/\1
+    upload: dist/.*
+
+  # Tangani semua route (SPA routing) → arahkan ke index.html
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html
