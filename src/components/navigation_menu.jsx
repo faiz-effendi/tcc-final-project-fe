@@ -13,13 +13,13 @@ function NavMenu() {
     await axios
       .delete(`${API_URL}/logout`, { withCredentials: true })
       .then((response) => {
-        if (response.status == 200) {
-          console.log("Logout successful");
-          localStorage.removeItem('localSavedUserData');
-          navigate('/', state={ type: "success", message: "Logout successful!" });
-        } else {
-          console.log("Logout failed: ", response);
-        }
+        if (response.status == 204) {
+        console.log("Logout successful");
+        localStorage.removeItem('localSavedUserData');
+        navigate('/', { state: { type: "success", message: "Logout successful!" } });
+      } else {
+        console.log("Logout failed: ", response);
+      }
       })
       .catch((error) => {
         console.log("Error during logout: ", error.response.data.message);
