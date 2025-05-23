@@ -1,7 +1,6 @@
 import MusicPlayer from "../components/music_player.jsx";
 import NavMenu from "../components/navigation_menu.jsx";
 
-
 function Player() {
   return (
     <div className="h-screen flex items-center justify-center">
