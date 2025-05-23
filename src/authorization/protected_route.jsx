@@ -30,7 +30,7 @@ const ProtectedRoute = ({ children }) => {
   }, []);
 
   if(isValid === null) return <LoadingSpinner />;
-  if(isValid === false) return <Navigate to="/" replace state={{ type: "error", message: "Session expired or login first!" }}/>;
+  if(isValid === false) return <Navigate to="/" replace state={{ type: "error", message: "Login first!" }}/>;
 
   return children;
 }
