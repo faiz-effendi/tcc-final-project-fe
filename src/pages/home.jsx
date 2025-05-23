@@ -106,11 +106,11 @@ function Home() {
         >
           {
             playlists.map((playlist, index) => (
-              <div className="bg-[#d4c39a] rounded-lg min-w-50 flex items-center cursor-pointer capitalize" key={index}>
+              <div className="bg-[#f7d585] rounded-lg min-w-50 flex items-center cursor-pointer capitalize" key={index}>
                 <div className="w-[50px] rounded-lg">
                   <img src="/public/supershy.jpeg" alt="" className="rounded-lg"/>
                 </div>
-                <h1 className="px-2 text-xl text-white whitespace-nowrap">
+                <h1 className="px-2 text-xl text-gray-600 whitespace-nowrap">
                   {playlist.Playlistname}
                 </h1>
               </div>

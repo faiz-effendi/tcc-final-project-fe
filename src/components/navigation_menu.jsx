@@ -1,12 +1,16 @@
 import { useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 
-function NavMenu({ isHideLogout }) {
+function NavMenu({ isHideLogout, isHideNewPlaylist }) {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
 
   const goToBack = () => {
     navigate(-1);
+  }
+
+  const goToNewPlaylist = () => {
+    navigate('/create-playlist');
   }
 
   const handleLogout = async() => {
@@ -27,15 +31,19 @@ function NavMenu({ isHideLogout }) {
   }
 
   return (
-    <div className="absolute flex flex-col gap-1.5 justify-center right-[390px] top-[10px] rounded-lg bg-[#FFF2DB] p-1.5 z-20">
-      <div 
-        className="h-[45px] w-[45px] bg-green-300 hover:bg-green-500 cursor-pointer rounded-lg flex items-center justify-center"
+    <div className="absolute flex flex-col gap-1.5 justify-center right-[385px] top-[10px] rounded-lg bg-[#FFF2DB] p-1.5 z-20">
+      <div className="h-[45px] w-[45px] bg-gray-400 hover:bg-gray-500 cursor-pointer rounded-lg flex items-center justify-center"
         onClick={goToBack}  
       >
         <i className="fa-solid fa-arrow-left text-2xl text-white"></i>
       </div>
+      <div className={ `${isHideNewPlaylist ? "hidden" : ""} h-[45px] w-[45px] bg-green-400 hover:bg-green-500 cursor-pointer rounded-lg flex items-center justify-center` }
+        onClick={goToNewPlaylist}  
+      >
+        <i className="fa-solid fa-plus text-2xl text-white"></i>
+      </div>
       <div
-        className={ `${isHideLogout ? "hidden" : ""} h-[45px] w-[45px] bg-red-300 hover:bg-red-500 cursor-pointer rounded-lg flex items-center justify-center` }
+        className={ `${isHideLogout ? "hidden" : ""} h-[45px] w-[45px] bg-red-400 hover:bg-red-500 cursor-pointer rounded-lg flex items-center justify-center` }
         onClick={handleLogout}
       >
         <i className="fa-solid fa-power-off text-2xl text-white"></i>
