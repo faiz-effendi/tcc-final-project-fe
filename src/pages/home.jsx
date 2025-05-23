@@ -2,6 +2,8 @@ import SongCard from "../components/song_card";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import NavMenu from "../components/navigation_menu";
+import SonginPlaylist from "./SonginPlaylist";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,6 +12,8 @@ function Home() {
   const [playlists, setPlaylists] = useState([]);
   const [search, setSearch] = useState("");
   const scrollRef = useRef(null);
+  const navigate = useNavigate();
+
 
   const fetchSongs = async() => {
     try {
@@ -100,13 +104,17 @@ function Home() {
         </div>
 
         {/* Playlist */}
-        <div 
+       <div 
           className="absolute flex gap-2 border-0 border-blue-400 h-[50px] w-[280px] top-[78px] overflow-x-auto scrollbar-hide z-20 font-pixel"
           ref={scrollRef}
         >
           {
-            playlists.map((playlist, index) => (
-              <div className="bg-[#f7d585] rounded-lg min-w-50 flex items-center cursor-pointer capitalize" key={index}>
+            playlists.map((playlist) => (
+              <div
+                className="bg-[#f7d585] rounded-lg min-w-50 flex items-center cursor-pointer capitalize"
+                onClick={() => navigate(`/song-in-playlist/${playlist.id_playlist}`)}
+                key={playlist.id} // gunakan id (int) untuk key
+              >
                 <div className="w-[50px] rounded-lg">
                   <img src="/public/supershy.jpeg" alt="" className="rounded-lg"/>
                 </div>
