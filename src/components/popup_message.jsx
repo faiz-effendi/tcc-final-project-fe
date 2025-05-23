@@ -5,7 +5,7 @@ function PopupMessage({ state, setState }) {
   const isSuccess = state.type === "success";
 
   return (
-    <div className="absolute inset-0 z-20 backdrop-blur-[2px] bg-black/30 flex items-center justify-center">
+    <div className="absolute inset-0 z-20 backdrop-blur-[1px] bg-black/30 flex items-center justify-center">
       <div className="bg-white w-[320px] rounded-xl shadow-xl p-4 text-center relative">
 
         {/* Icon Dinamis */}

@@ -35,11 +35,16 @@ function NewPlaylist() {
       })
       .catch((error) => {
         console.log("Error during signup: ", error);
-        setPopupStatus({
-          isOpen: true,
-          type: "error",
-          message: "Make sure the playlist name you entered is correct and not already taken."
-        })
+        if(error.response.status === 403) {
+          localStorage.removeItem("localSavedUserData");
+          navigate('/', {state: { type: "error", message: "Session expired, please login again!" }});
+        } else {
+          setPopupStatus({
+            isOpen: true,
+            type: "error",
+            message: "Make sure the playlist name you entered is correct and not already taken."
+          })
+        }
       })
   }
 

@@ -21,13 +21,16 @@ function MusicPlayer() {
           headers: {
             Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
           },
-          timeout: 1000,
         })
         .then((response) => {
           setSong(response.data);
         })
         .catch((error) => {
           console.log("Error fetching songsss:", error);
+          if(error.response.status === 403) {
+            localStorage.removeItem("localSavedUserData");
+            navigate('/', {state: { type: "error", message: "Session expired, please login again!" }});
+          }
         });
     } catch(error) {
       console.error("Error during fetching song:", error);

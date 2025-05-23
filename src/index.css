@@ -5,7 +5,6 @@
   --font-pixel: "Jersey 25", sans-serif;
 }
 
-
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

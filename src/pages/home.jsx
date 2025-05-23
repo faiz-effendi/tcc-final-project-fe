@@ -1,9 +1,12 @@
 import SongCard from "../components/song_card";
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import NavMenu from "../components/navigation_menu";
-import SonginPlaylist from "./SonginPlaylist";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import NavMenu from "../components/navigation_menu";
+import PopupPlaylist from "../components/popup_playlist";
+import PopupMessage from "../components/popup_message";
+import SonginPlaylist from "./SonginPlaylist";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -11,27 +14,32 @@ function Home() {
   const [songs, setSongs] = useState([]);
   const [playlists, setPlaylists] = useState([]);
   const [search, setSearch] = useState("");
+  const [popupPlaylist, setPopupPlaylist] = useState(false);
+  const [popupMessage, setPopupMessage] = useState({
+    isOpen: false,
+    type: "",
+    message: ""
+  });
   const scrollRef = useRef(null);
   const navigate = useNavigate();
 
-
   const fetchSongs = async() => {
-    try {
-      await axios
-        .get(`${API_URL}${search ? `/songbyname/${search}` : "/songs"}`, {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
-          }
-        })
-        .then((response) => { 
-          setSongs(response.data); 
-        })
-        .catch((error) => {
-          console.log("Error fetching songs:", error);
-        })
-    } catch (error) {
-      console.error("Error during fetching songs:", error);
-    }
+    await axios
+      .get(`${API_URL}${search ? `/songbyname/${search}` : "/songs"}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
+        }
+      })
+      .then((response) => { 
+        setSongs(response.data); 
+      })
+      .catch((error) => {
+        console.log("Error fetching songs:", error);
+        if(error.response.status === 403) {
+          localStorage.removeItem("localSavedUserData");
+          navigate('/', {state: { type: "error", message: "Session expired, please login again!" }});
+        }
+      })
   }
 
   useEffect(() => {
@@ -126,24 +134,46 @@ function Home() {
           }
         </div>
 
-        {/* All Song List */}
-        <div className="absolute inset-0 top-[140px] left-[60px] z-10">
-          <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
+          {/* Playlist */}
+          <div 
+            className="absolute flex gap-2 border-0 border-blue-400 h-[50px] w-[280px] top-[78px] overflow-x-auto scrollbar-hide z-20 font-pixel"
+            ref={scrollRef}
+          >
             {
-              songs.map((song, index) => (
-                <SongCard
-                  key={index}
-                  song_id={song.id}
-                  title={song.name}
-                  artist={song.artist}
-                  img={song.image}
-                />
+              playlists.map((playlist, index) => (
+                <div className="bg-[#f7d585] rounded-lg min-w-50 flex items-center cursor-pointer capitalize" key={index}>
+                  <div className="w-[50px] rounded-lg">
+                    <img src="/supershy.jpeg" alt="" className="rounded-lg"/>
+                  </div>
+                  <h1 className="px-2 text-xl text-gray-600 whitespace-nowrap">
+                    {playlist.Playlistname}
+                  </h1>
+                </div>
               ))
             }
           </div>
+
+          {/* All Song List */}
+          <div className="absolute inset-0 top-[140px] left-[60px] z-10">
+            <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
+              {
+                songs.map((song, index) => (
+                  <SongCard
+                    key={index}
+                    song_id={song.id}
+                    playlists={playlists}
+                    title={song.name}
+                    artist={song.artist}
+                    img={song.image}
+                    setPopupPlaylist={setPopupPlaylist}
+                  />
+                ))
+              }
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
