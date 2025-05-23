@@ -1,0 +1,50 @@
+[33mcommit e7334719200380b96096dd9f275df2e05ed38537[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m
+Author: faiz effendi <faizeffendi2004@gmail.com>
+Date:   Thu May 22 23:37:17 2025 +0700
+
+    add: navigation and playlist
+
+[33mcommit d24decffd8e52c8301b2e6b452eca405032f5bfb[m[33m ([m[1;36mHEAD -> [m[1;32mpopup-message[m[33m, [m[1;31morigin/feature/popup-message[m[33m)[m
+Author: faiz effendi <faizeffendi2004@gmail.com>
+Date:   Thu May 22 23:04:51 2025 +0700
+
+    fix: typo errorMessage
+
+[33mcommit 4757d8278f7bc8151923f4637423f34efcb6a824[m
+Author: faiz effendi <faizeffendi2004@gmail.com>
+Date:   Thu May 22 22:57:14 2025 +0700
+
+    add: credentials at login
+
+[33mcommit 141eacd39d8c1b755278e4992b4546cb3ba20a9d[m
+Author: faiz effendi <faizeffendi2004@gmail.com>
+Date:   Thu May 22 16:11:08 2025 +0700
+
+    add: back and logout button
+
+[33mcommit 650cb9a593355933f850cfa6a874cb06bcd57a03[m
+Merge: 5f9861e ab61f7b
+Author: ezz <114060184+faiz-effendi@users.noreply.github.com>
+Date:   Mon May 19 14:11:19 2025 +0700
+
+    Merge pull request #1 from faiz-effendi/feature/login-page to dev
+    
+    add: popup message
+
+[33mcommit ab61f7bdd76006d1079539fe8678563a0ce613b8[m[33m ([m[1;31morigin/feature/login-page[m[33m, [m[1;32mfeature/login-page[m[33m)[m
+Author: faiz effendi <faizeffendi2004@gmail.com>
+Date:   Mon May 19 14:09:23 2025 +0700
+
+    fix: bug popup session
+
+[33mcommit 52eaf779ae871e06b01aeed0202c8afbb4f455b6[m
+Author: faiz effendi <faizeffendi2004@gmail.com>
+Date:   Mon May 19 13:49:59 2025 +0700
+
+    add: popup message when error
+
+[33mcommit 5f9861e92e4fe8b7baae690520f7ef2b7ed48857[m
+Author: faiz effendi <faizeffendi2004@gmail.com>
+Date:   Mon May 19 08:34:38 2025 +0700
+
+    init push

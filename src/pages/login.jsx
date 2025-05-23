@@ -53,6 +53,7 @@ function LoginPage() {
           console.log("Error during login:", error);
           setPopupStatus({
             isOpen: true,
+            type: "error",
             message: "Make sure the email or password you entered is correct and already registered."
           });
         });
@@ -99,7 +100,9 @@ function LoginPage() {
                 Don't have an account? 
                 <a
                   className="text-blue-500 rounded-md p-1 hover:text-blue-600 transition duration-200 text-center cursor-pointer"
-                  onClick={ () => {  } }
+                  onClick={ ()=>{
+                    navigate('/signup');
+                  } }
                 >Signup</a>
               </p>
             </div>
