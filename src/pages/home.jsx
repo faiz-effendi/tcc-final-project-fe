@@ -96,24 +96,24 @@ function Home() {
               className="pl-10 pr-4 py-1 border-2 border-orange-300 focus:border-orange-500 rounded-md w-70 flex-initial text-gray-800"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-            />
+              />
             <span className="absolute inset-y-0 left-3 flex items-center text-orange-400">
               <i className="fas fa-search"></i> {/* Ikon Search */}
             </span>
           </div>
         </div>
-
         {/* Playlist */}
        <div 
           className="absolute flex gap-2 border-0 border-blue-400 h-[50px] w-[280px] top-[78px] overflow-x-auto scrollbar-hide z-20 font-pixel"
           ref={scrollRef}
-        >
+          >
           {
             playlists.map((playlist) => (
               <div
-                className="bg-[#f7d585] rounded-lg min-w-50 flex items-center cursor-pointer capitalize"
-                onClick={() => navigate(`/song-in-playlist/${playlist.id_playlist}`)}
-                key={playlist.id} // gunakan id (int) untuk key
+              className="bg-[#f7d585] rounded-lg min-w-50 flex items-center cursor-pointer capitalize"
+              onClick={() => navigate(`/song-in-playlist/${playlist.id_playlist}`)}
+              key={playlist.id} // gunakan id (int) untuk key
+                ///katanya bug///
               >
                 <div className="w-[50px] rounded-lg">
                   <img src="/public/supershy.jpeg" alt="" className="rounded-lg"/>
