@@ -11,10 +11,10 @@ function SonginPlaylist() {
   const { id_playlist } = useParams();
   const [search, setSearch] = useState("");
 
- const fetchSongs = async () => {
+  const fetchSongs = async () => {
     try {
       const token = JSON.parse(localStorage.getItem("localSavedUserData"))?.accessToken;
-       const response = await axios.get(
+      const response = await axios.get(
         `${API_URL}/playlist-with-songs/${id_playlist}`,
         {
           headers: {
@@ -73,10 +73,7 @@ function SonginPlaylist() {
               songs.map((song, index) => (
                 <SongCard
                   key={index}
-                  song_id={song.id}
-                  title={song.name}
-                  artist={song.artist}
-                  img={song.image}
+                  songData={song}
                 />
               ))
             }

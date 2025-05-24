@@ -146,7 +146,6 @@ function Home() {
             <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
               {
                 songs.map((song, index) => (
-                  console.log("Song: ", song),
                   <SongCard
                     key={index}
                     songData={song}
@@ -159,6 +158,7 @@ function Home() {
           </div>
         </div>
       </div>
+    </>
   );
 }
 
