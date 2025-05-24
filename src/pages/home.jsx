@@ -13,6 +13,7 @@ function Home() {
   const [songs, setSongs] = useState([]);
   const [playlists, setPlaylists] = useState([]);
   const [search, setSearch] = useState("");
+  const [songId, setSongId] = useState("");
   const [popupPlaylist, setPopupPlaylist] = useState(false);
   const [popupMessage, setPopupMessage] = useState({
     isOpen: false,
@@ -30,6 +31,7 @@ function Home() {
         }
       })
       .then((response) => { 
+        console.log("Response songs: ", response.data);
         setSongs(response.data); 
       })
       .catch((error) => {
@@ -82,7 +84,7 @@ function Home() {
 
   return (
     <>
-      { popupPlaylist && <PopupPlaylist playlists={playlists} setPopupPlaylist={setPopupPlaylist} setPopupMessage={setPopupMessage}/>}
+      { popupPlaylist && <PopupPlaylist songId={songId} playlists={playlists} setPopupPlaylist={setPopupPlaylist} setPopupMessage={setPopupMessage}/>}
       { popupMessage.isOpen && <PopupMessage state={popupMessage} setState={setPopupMessage} />}
 
       <div className="h-screen flex items-center justify-center">
@@ -137,13 +139,11 @@ function Home() {
             <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
               {
                 songs.map((song, index) => (
+                  console.log("Song: ", song),
                   <SongCard
                     key={index}
-                    song_id={song.id}
-                    playlists={playlists}
-                    title={song.name}
-                    artist={song.artist}
-                    img={song.image}
+                    songData={song}
+                    setSongId={setSongId}
                     setPopupPlaylist={setPopupPlaylist}
                   />
                 ))
