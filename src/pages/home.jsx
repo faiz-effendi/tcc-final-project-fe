@@ -14,6 +14,7 @@ function Home() {
   const [songs, setSongs] = useState([]);
   const [playlists, setPlaylists] = useState([]);
   const [search, setSearch] = useState("");
+  const [songId, setSongId] = useState("");
   const [popupPlaylist, setPopupPlaylist] = useState(false);
   const [popupMessage, setPopupMessage] = useState({
     isOpen: false,
@@ -31,6 +32,7 @@ function Home() {
         }
       })
       .then((response) => { 
+        console.log("Response songs: ", response.data);
         setSongs(response.data); 
       })
       .catch((error) => {
@@ -82,28 +84,32 @@ function Home() {
   }, [])
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <>
+      { popupPlaylist && <PopupPlaylist songId={songId} playlists={playlists} setPopupPlaylist={setPopupPlaylist} setPopupMessage={setPopupMessage}/>}
+      { popupMessage.isOpen && <PopupMessage state={popupMessage} setState={setPopupMessage} />}
 
-      <div className="relative w-[400px] h-[580px] flex items-center justify-center object-cover">
-        <NavMenu />
-        {/* Pixel Player */}
-        <img src="/home_player.png" className="relative z-8 h-full object-cover" />
+      <div className="h-screen flex items-center justify-center">
+        <div className="relative w-[400px] h-[580px] flex items-center justify-center object-cover">
+          <NavMenu />
+          {/* Pixel Player */}
+          <img src="/home_player.png" className="relative z-8 h-full object-cover" />
 
-        {/* Background Cream */}
-        <div
-          className="absolute inset-0 bg-[#FFF2DB] rounded-lg z-0 object-cover ml-9 mt-4 w-[325px] h-[540px]"
-          style={{ clipPath: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)" }}
-        ></div>
+          {/* Background Cream */}
+          <div
+            className="absolute inset-0 bg-[#FFF2DB] rounded-lg z-0 object-cover ml-9 mt-4 w-[325px] h-[540px]"
+            style={{ clipPath: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)" }}
+          ></div>
 
-        {/* Search bar */}
-        <div className="absolute w-[280px] h-[40px] top-[32px] z-10">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search songs..."
-              className="pl-10 pr-4 py-1 border-2 border-orange-300 focus:border-orange-500 rounded-md w-70 flex-initial text-gray-800"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+          {/* Search bar */}
+          <div className="absolute w-[280px] h-[40px] top-[32px] z-10">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search songs..."
+                className="pl-10 pr-4 py-1 border-2 border-orange-300 focus:border-orange-500 rounded-md w-70 flex-initial text-gray-800"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+
               />
             <span className="absolute inset-y-0 left-3 flex items-center text-orange-400">
               <i className="fas fa-search"></i> {/* Ikon Search */}
@@ -140,13 +146,11 @@ function Home() {
             <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
               {
                 songs.map((song, index) => (
+                  console.log("Song: ", song),
                   <SongCard
                     key={index}
-                    song_id={song.id}
-                    playlists={playlists}
-                    title={song.name}
-                    artist={song.artist}
-                    img={song.image}
+                    songData={song}
+                    setSongId={setSongId}
                     setPopupPlaylist={setPopupPlaylist}
                   />
                 ))
