@@ -2,14 +2,17 @@ import SongCard from "../components/song_card";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+
 import NavMenu from "../components/navigation_menu";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function SonginPlaylist() {
   const [songs, setSongs] = useState([]);
+  const [playlistName, setPlaylistName] = useState(""); 
   const { id_playlist } = useParams();
   const [search, setSearch] = useState("");
+  const [newPlaylistName, setNewPlaylistName] = useState("");
 
   const fetchSongs = async () => {
     try {
@@ -25,17 +28,12 @@ function SonginPlaylist() {
       console.log("Response data:", response.data); 
       // Pastikan response.data.songs sesuai struktur backend-mu
       setSongs(response.data[0].songs || []);
+      setPlaylistName(response.data[0].Playlistname) // Set playlist name if available
+      set
     } catch (error) {
       console.error("Error fetching songs:", error);
     }
   };
-
-
-  useEffect(() => {
-    console.log("id_playlist:", id_playlist);
-    const delaySearch = setTimeout(fetchSongs, 400); // Debounce to prevent spam requests
-    return () => clearTimeout(delaySearch); // Clear timeout if user is still typing
-  }, [search]);
 
   return (
     <div className="h-screen flex items-center justify-center">
@@ -51,23 +49,22 @@ function SonginPlaylist() {
         ></div>
 
         {/* Search bar */}
-        <div className="absolute w-[280px] h-[40px] top-[32px] z-10">
+        <div className="absolute w-[280px] h-[70px] top-[32px] z-10">
           <div className="relative">
             <input
               type="text"
-              placeholder="Search songs..."
-              className="pl-10 pr-4 py-1 border-2 border-orange-300 focus:border-orange-500 rounded-md w-70 flex-initial text-gray-800"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              placeholder={ playlistName }
+              className="px-3 py-1 border-2 border-orange-300 focus:border-orange-500 rounded-md w-70 flex-initial text-black font-pixel text-xl capitalize "
+              onChange={ (e) => setNewPlaylistName(e.target.value) }
             />
-            <span className="absolute inset-y-0 left-3 flex items-center text-orange-400">
-              <i className="fas fa-search"></i>
+            <span className="absolute inset-y-0 right-3 flex items-center text-orange-400">
+              <i className="fas fa-pen"></i>
             </span>
           </div>
         </div>
 
         {/* All Song List */}
-        <div className="absolute inset-0 top-[140px] left-[60px] z-10">
+        <div className="absolute inset-0 top-[85px] left-[60px] z-10">
           <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
             {
               songs.map((song, index) => (

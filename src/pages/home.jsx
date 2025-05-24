@@ -6,7 +6,6 @@ import axios from "axios";
 import NavMenu from "../components/navigation_menu";
 import PopupPlaylist from "../components/popup_playlist";
 import PopupMessage from "../components/popup_message";
-import SonginPlaylist from "./SonginPlaylist";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

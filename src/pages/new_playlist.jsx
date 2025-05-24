@@ -34,7 +34,7 @@ function NewPlaylist() {
         })
       })
       .catch((error) => {
-        console.log("Error during signup: ", error);
+        console.log("Error during create playlist: ", error);
         if(error.response.status === 403) {
           localStorage.removeItem("localSavedUserData");
           navigate('/', {state: { type: "error", message: "Session expired, please login again!" }});
