@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import axios from "axios";
 
-function PopupPlaylist({ playlists, setPopupPlaylist, setPopupMessage }) {
+function PopupPlaylist({ songId, playlists, setPopupPlaylist, setPopupMessage }) {
   const popupRef = useRef();
   const API_URL = import.meta.env.VITE_API_URL;
 
   const addToPlaylist = async(playlistId) => {
     await axios
-      .post(`${API_URL}/add-song-to-playlist/${playlistId}/${JSON.parse(localStorage.getItem("localSavedUserData")).id}`, {
+      .post(`${API_URL}/add-song-to-playlist/${playlistId}/${songId}`, {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
         }
