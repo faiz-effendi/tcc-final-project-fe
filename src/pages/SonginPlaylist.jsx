@@ -74,6 +74,7 @@ function SonginPlaylist() {
                 <SongCard
                   key={index}
                   songData={song}
+                  symbol="-"
                 />
               ))
             }

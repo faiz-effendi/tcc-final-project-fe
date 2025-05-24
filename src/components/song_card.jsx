@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function SongCard({ songData, setPopupPlaylist, setSongId }) {
+function SongCard({ songData, setPopup, setSongId, symbol }) {
   const navigate = useNavigate();
 
   const goToSongPlayer = () => {
@@ -25,11 +25,12 @@ function SongCard({ songData, setPopupPlaylist, setSongId }) {
         <div
           className="text-4xl font-bold text-gray-600 hover:text-black cursor-pointer pb-2"
           onClick={() => {
-            setPopupPlaylist(true);
-            setSongId(songData.id);
+            // opsional
+            setPopup?.(true);
+            setSongId?.(songData.id);
           }}
         >
-          +
+          {symbol ? symbol : "+"}
         </div>
       </div>
     </div>
