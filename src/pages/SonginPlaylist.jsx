@@ -1,6 +1,6 @@
 import SongCard from "../components/song_card";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import NavMenu from "../components/navigation_menu";
@@ -9,10 +9,10 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function SonginPlaylist() {
   const [songs, setSongs] = useState([]);
-  const [playlistName, setPlaylistName] = useState(""); 
+  const [playlistName, setPlaylistName] = useState("");
   const { id_playlist } = useParams();
-  const [search, setSearch] = useState("");
   const [newPlaylistName, setNewPlaylistName] = useState("");
+  const navigate = useNavigate();
 
   const fetchSongs = async () => {
     try {
@@ -25,13 +25,46 @@ function SonginPlaylist() {
           },
         }
       );
-      console.log("Response data:", response.data); 
+      console.log("Response data:", response.data);
       // Pastikan response.data.songs sesuai struktur backend-mu
       setSongs(response.data[0].songs || []);
-      setPlaylistName(response.data[0].Playlistname) // Set playlist name if available
-      set
+      setPlaylistName(response.data[0].Playlistname); // Set playlist name if available
+      setNewPlaylistName(response.data[0].Playlistname); // Set newPlaylistName with playlistName
     } catch (error) {
       console.error("Error fetching songs:", error);
+    }
+  };
+
+  const updatePlaylistName = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("localSavedUserData"))?.accessToken;
+      const response = await axios.put(
+        `${API_URL}/edit-playlist/${id_playlist}`, // Endpoint yang benar
+        {
+          playlist_name: newPlaylistName, // Key yang benar
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPlaylistName(newPlaylistName); // Update playlistName state
+      alert("Playlist name updated successfully!");
+      navigate(`/song-in-playlist/${response.data.playlist.id_playlist}`); // Navigasi ke id_playlist yang baru
+    } catch (error) {
+      console.error("Error updating playlist name:", error);
+      alert("Failed to update playlist name. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    fetchSongs();
+  }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      updatePlaylistName();
     }
   };
 
@@ -53,9 +86,11 @@ function SonginPlaylist() {
           <div className="relative">
             <input
               type="text"
-              placeholder={ playlistName }
+              value={newPlaylistName}
+              placeholder={playlistName} // Menggunakan playlistName sebagai placeholder
               className="px-3 py-1 border-2 border-orange-300 focus:border-orange-500 rounded-md w-70 flex-initial text-black font-pixel text-xl capitalize "
-              onChange={ (e) => setNewPlaylistName(e.target.value) }
+              onChange={(e) => setNewPlaylistName(e.target.value)}
+              onKeyDown={handleKeyDown} // Tambahkan event listener
             />
             <span className="absolute inset-y-0 right-3 flex items-center text-orange-400">
               <i className="fas fa-pen"></i>
@@ -66,15 +101,9 @@ function SonginPlaylist() {
         {/* All Song List */}
         <div className="absolute inset-0 top-[85px] left-[60px] z-10">
           <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
-            {
-              songs.map((song, index) => (
-                <SongCard
-                  key={index}
-                  songData={song}
-                  symbol="-"
-                />
-              ))
-            }
+            {songs.map((song, index) => (
+              <SongCard key={index} songData={song} symbol="-" />
+            ))}
           </div>
         </div>
       </div>
