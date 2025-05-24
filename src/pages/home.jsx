@@ -110,8 +110,9 @@ function Home() {
             </span>
           </div>
         </div>
+
         {/* Playlist */}
-       <div 
+        <div 
           className="absolute flex gap-2 border-0 border-blue-400 h-[50px] w-[280px] top-[78px] overflow-x-auto scrollbar-hide z-20 font-pixel"
           ref={scrollRef}
           >
@@ -124,7 +125,7 @@ function Home() {
                 ///katanya bug///
               >
                 <div className="w-[50px] rounded-lg">
-                  <img src="/public/supershy.jpeg" alt="" className="rounded-lg"/>
+                  <img src="/supershy.jpeg" alt="" className="rounded-lg"/>
                 </div>
                 <h1 className="px-2 text-xl text-gray-600 whitespace-nowrap">
                   {playlist.Playlistname}
@@ -133,25 +134,6 @@ function Home() {
             ))
           }
         </div>
-
-          {/* Playlist */}
-          <div 
-            className="absolute flex gap-2 border-0 border-blue-400 h-[50px] w-[280px] top-[78px] overflow-x-auto scrollbar-hide z-20 font-pixel"
-            ref={scrollRef}
-          >
-            {
-              playlists.map((playlist, index) => (
-                <div className="bg-[#f7d585] rounded-lg min-w-50 flex items-center cursor-pointer capitalize" key={index}>
-                  <div className="w-[50px] rounded-lg">
-                    <img src="/supershy.jpeg" alt="" className="rounded-lg"/>
-                  </div>
-                  <h1 className="px-2 text-xl text-gray-600 whitespace-nowrap">
-                    {playlist.Playlistname}
-                  </h1>
-                </div>
-              ))
-            }
-          </div>
 
           {/* All Song List */}
           <div className="absolute inset-0 top-[140px] left-[60px] z-10">
@@ -173,7 +155,6 @@ function Home() {
           </div>
         </div>
       </div>
-    </>
   );
 }
 
