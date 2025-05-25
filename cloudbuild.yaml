@@ -5,7 +5,7 @@ steps:
     args:
       - '-c'
       - |
-        gcloud secrets versions access latest --secret=frontend-env > .env
+        gcloud secrets versions access latest --secret=vite-env > .env
 
   # Step 2: Install dependencies
   - name: "node:20"
