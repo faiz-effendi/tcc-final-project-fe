@@ -32,6 +32,9 @@ function NewPlaylist() {
           type: "success",
           message: "Playlist created successfully!"
         })
+        setTimeout(() => {
+          window.location.href = "/home";
+        }, 2000);
       })
       .catch((error) => {
         console.log("Error during create playlist: ", error);

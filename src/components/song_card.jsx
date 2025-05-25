@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function SongCard({ songData, setPopup, setSongId, symbol }) {
+function SongCard({ songData, setPopup, setSongId, deleteSongFromPlaylist, symbol }) {
   const navigate = useNavigate();
 
   const goToSongPlayer = () => {
@@ -28,6 +28,7 @@ function SongCard({ songData, setPopup, setSongId, symbol }) {
             // opsional
             setPopup?.(true);
             setSongId?.(songData.id);
+            deleteSongFromPlaylist?.(songData.id);
           }}
         >
           {symbol ? symbol : "+"}

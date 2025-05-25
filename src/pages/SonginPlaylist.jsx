@@ -10,13 +10,13 @@ const API_URL = import.meta.env.VITE_API_URL;
 function SonginPlaylist() {
   const [songs, setSongs] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
-  let { id_playlist } = useParams();
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const [popupMessage, setPopupMessage] = useState({
     isOpen: false,
     type: "",
     message: ""
   });
+  let { id_playlist } = useParams();
   const navigate = useNavigate();
   
   const fetchSongs = async () => {
@@ -78,6 +78,54 @@ function SonginPlaylist() {
     }
   };
 
+  const deletePlaylist = async() => {
+    try {
+      await axios.delete(`${API_URL}/delete-playlist/${id_playlist}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData"))?.accessToken}`,
+        }
+      })
+      setPopupMessage({
+        isOpen: true,
+        type: "success",
+        message: "Playlist deleted successfully!",
+      });
+      setTimeout(() => {
+        navigate('/home');
+      }, 5000);
+    } catch(error) {
+      setPopupMessage({
+        isOpen: true,
+        type: "error",
+        message: "Failed to delete playlist. Please try again.",
+      });
+      console.log("Error deleting playlist:", error);
+    }
+  }
+
+  const deleteSongFromPlaylist = async(id_song) => {
+    try {
+      await axios.delete(`${API_URL}/remove-song-from-playlist/${id_playlist}/${id_song}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData"))?.accessToken}`,
+        }
+      })
+      setPopupMessage({
+        isOpen: true,
+        type: "success",
+        message: "Song deleted successfully!",
+      });
+      fetchSongs();
+    } catch(error) {
+      setPopupMessage({
+        isOpen: true,
+        type: "error",
+        message: "Failed to delete song. Please try again.",
+      });
+      console.log("Error deleting song form playlist:", error);
+    }
+  }
+
   useEffect(() => {
     fetchSongs();
   }, []);
@@ -103,7 +151,7 @@ function SonginPlaylist() {
           style={{ clipPath: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)" }}
           ></div>
 
-        {/* Search bar */}
+        {/* Playlist Name Input */}
         <div className="absolute w-[280px] h-[70px] top-[32px] z-10">
           <div className="relative">
             <input
@@ -123,10 +171,19 @@ function SonginPlaylist() {
         {/* All Song List */}
         <div className="absolute inset-0 top-[85px] left-[60px] z-10">
           <div className="flex flex-col gap-1 max-h-[390px] overflow-y-scroll scrollbar-hide">
-            {songs.map((song, index) => (
-              <SongCard key={index} songData={song} symbol="-" />
-            ))}
+            {
+              songs.map((song, index) => (
+                <SongCard key={index} songData={song} deleteSongFromPlaylist={deleteSongFromPlaylist} symbol="-" />
+              ))
+            }
           </div>
+        </div>
+
+        <div 
+          className="flex items-center justify-center absolute inset-0 left-[60px] top-[485px] bg-red-400 hover:bg-red-500 cursor-pointer w-[285px] h-[35px] rounded-lg z-10"
+          onClick={ deletePlaylist}
+        >
+          <h1 className="text-white font-pixel text-xl">Delete playlist</h1>
         </div>
       </div>
     </div>
