@@ -32,9 +32,12 @@ function NewPlaylist() {
           type: "success",
           message: "Playlist created successfully!"
         })
+        setTimeout(() => {
+          window.location.href = "/home";
+        }, 2000);
       })
       .catch((error) => {
-        console.log("Error during signup: ", error);
+        console.log("Error during create playlist: ", error);
         if(error.response.status === 403) {
           localStorage.removeItem("localSavedUserData");
           navigate('/', {state: { type: "error", message: "Session expired, please login again!" }});

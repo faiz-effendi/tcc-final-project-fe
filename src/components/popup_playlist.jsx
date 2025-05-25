@@ -21,7 +21,11 @@ function PopupPlaylist({ songId, playlists, setPopupPlaylist, setPopupMessage })
         });
       })
       .catch((error) => {
-        console.log("Error adding to playlist: ", error);
+        setPopupMessage({
+          isOpen: true,
+          type: "error",
+          message: "Your song is already in this playlist."
+        });
       })
   }
 

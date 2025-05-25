@@ -6,7 +6,6 @@ import axios from "axios";
 import NavMenu from "../components/navigation_menu";
 import PopupPlaylist from "../components/popup_playlist";
 import PopupMessage from "../components/popup_message";
-import SonginPlaylist from "./SonginPlaylist";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -29,10 +28,10 @@ function Home() {
       .get(`${API_URL}${search ? `/songbyname/${search}` : "/songs"}`, {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
-        }
+        },
+        timeout: 5000
       })
       .then((response) => { 
-        console.log("Response songs: ", response.data);
         setSongs(response.data); 
       })
       .catch((error) => {
@@ -119,7 +118,7 @@ function Home() {
 
         {/* Playlist */}
         <div 
-          className="absolute flex gap-2 border-0 border-blue-400 h-[50px] w-[280px] top-[78px] overflow-x-auto scrollbar-hide z-20 font-pixel"
+          className="absolute flex gap-2 border-0 border-blue-400 h-[50px] w-[280px] top-[78px] overflow-x-auto scrollbar-hide z-10 font-pixel"
           ref={scrollRef}
           >
           {
@@ -150,7 +149,7 @@ function Home() {
                     key={index}
                     songData={song}
                     setSongId={setSongId}
-                    setPopupPlaylist={setPopupPlaylist}
+                    setPopup={setPopupPlaylist}
                   />
                 ))
               }
