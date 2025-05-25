@@ -21,6 +21,7 @@ function MusicPlayer() {
           headers: {
             Authorization: `Bearer ${JSON.parse(localStorage.getItem("localSavedUserData")).accessToken}`,
           },
+          timeout: 5000
         })
         .then((response) => {
           setSong(response.data);
