@@ -3,7 +3,7 @@ instance_class: F1
 
 handlers:
   # Tangani file statis: JS, CSS, gambar, dll
-  - url: /(.*\.(js|css|png|jpg|svg|ico|json|txt|woff2?))
+  - url: /(.*\.(js|css|png|jpg|svg|ico|json|txt|woff2?|jpeg|gif))
     static_files: dist/\1
     upload: dist/.*
 
