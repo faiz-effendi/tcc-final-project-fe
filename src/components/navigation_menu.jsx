@@ -6,7 +6,7 @@ function NavMenu({ isHideLogout, isHideNewPlaylist }) {
   const API_URL = import.meta.env.VITE_API_URL;
 
   const goToBack = () => {
-    navigate(-1);
+    navigate('/home');
   }
 
   const goToNewPlaylist = () => {
