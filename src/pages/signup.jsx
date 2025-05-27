@@ -1,7 +1,7 @@
 import { useState } from "react"; 
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
-import NavMenu from "../components/navigation_menu";
 import PopupMessage from "../components/popup_message";
 
 function SignupPage() {
@@ -15,6 +15,7 @@ function SignupPage() {
     message: ""
   });
   const API_URL = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
 
   const tryToSignup = async() => {
     await axios
@@ -26,6 +27,10 @@ function SignupPage() {
           message: "Registration successful! You can login now."
         })
       })
+      setTimeout(() => {
+        navigate("/login");
+      }
+      , 3000)
       .catch((error) => {
         console.log("Error during signup: ", error);
         setPopupStatus({
@@ -42,7 +47,6 @@ function SignupPage() {
 
       <div className="h-screen flex items-center justify-center">
         <div className="relative w-[400px] h-[580px] flex items-center justify-center object-cover">
-          <NavMenu isHideLogout={ true }/>
           <img src="/home_player.png" className="relative z-10 h-full object-cover" />
           
           {/* Background Cream */}
