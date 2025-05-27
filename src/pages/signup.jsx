@@ -28,7 +28,7 @@ function SignupPage() {
         })
       })
       setTimeout(() => {
-        navigate("/login");
+        navigate("/");
       }
       , 3000)
       .catch((error) => {
