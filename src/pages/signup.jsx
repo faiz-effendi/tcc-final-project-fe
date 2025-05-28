@@ -26,11 +26,11 @@ function SignupPage() {
           type: "success",
           message: "Registration successful! You can login now."
         })
+        setTimeout(() => {
+          navigate("/");
+        }
+        , 3000)
       })
-      setTimeout(() => {
-        navigate("/");
-      }
-      , 3000)
       .catch((error) => {
         console.log("Error during signup: ", error);
         setPopupStatus({
