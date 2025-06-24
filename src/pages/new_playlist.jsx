@@ -14,10 +14,6 @@ function NewPlaylist() {
     });
     const API_URL = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    console.log("Your playlist name is: ", playlistName);
-  }, [playlistName]);
-
   const tryToCreatePlaylist = async() => {
     await axios
       .post(`${API_URL}/create-playlist`, { playlist_name: playlistName }, { 
